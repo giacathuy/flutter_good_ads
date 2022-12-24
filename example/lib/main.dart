@@ -71,49 +71,42 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Spacer(),
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        children: [
+          const Text(
+            'You have pushed the button this many times:',
+          ),
+          Text(
+            '$_counter',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                if (index == 5) {
+                  return const GoodBannerStandard(
+                    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                    adRequest: AdRequest(),
+                    adSize: AdSize.banner,
+                  );
+                } else if (index == 10) {
+                  return const GoodBannerAdaptiveInline(
+                    adUnitId: 'ca-app-pub-3940256099942544/9214589741',
+                  );
+                } else if (index == 15) {
+                  return const GoodBannerAdaptiveAnchored(
+                    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                  );
+                } else {
+                  return ListTile(
+                    title: Text(index.toString()),
+                  );
+                }
+              },
+              addAutomaticKeepAlives: true,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            const GoodBannerStandard(
-              adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-              adRequest: AdRequest(),
-              interval: 60000,
-              adSize: AdSize.banner,
-            ),
-            GoodBannerAdaptiveInline(
-              adUnitId: 'ca-app-pub-3940256099942544/9214589741',
-            ),
-            Spacer(),
-            GoodBannerAdaptiveAnchored(
-              adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

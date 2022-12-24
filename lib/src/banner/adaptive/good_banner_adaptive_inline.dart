@@ -79,6 +79,15 @@ class _GoodBannerAdaptiveInlineState extends State<GoodBannerAdaptiveInline> {
           debug('Inline adaptive banner failedToLoad: $error');
           ad.dispose();
         },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) => debug(
+            'banner_adaptive_line_opened(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) => debug(
+            'banner_adaptive_line_closed(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) => debug(
+            'banner_adaptive_line_impression(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
       ),
     );
     await _inlineAdaptiveAd!.load();

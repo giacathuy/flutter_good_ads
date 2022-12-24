@@ -57,6 +57,15 @@ class _GoodBannerAdaptiveAnchoredState
           debug('Anchored adaptive banner failedToLoad: $error');
           ad.dispose();
         },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) => debug(
+            'banner_adaptive_anchored_opened(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) => debug(
+            'banner_adaptive_anchored_closed(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) => debug(
+            'banner_adaptive_anchored_impression(${widget.adUnitId}): ${ad.responseInfo.toString()}'),
       ),
     );
     return _anchoredAdaptiveAd!.load();

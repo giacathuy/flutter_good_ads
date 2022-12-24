@@ -1,24 +1,20 @@
+import 'dart:async';
+
 import 'package:andesgroup_common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_good_ads/src/extensions.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GoodBannerStandard extends StatefulWidget {
-  static Map<String, int> lastImpressions = {};
-
-  /// [interval] minimum interval between 2 impressions (millis), default: 60000
   const GoodBannerStandard({
     Key? key,
     required this.adUnitId,
     this.adRequest = const AdRequest(),
     this.adSize = AdSize.banner,
-    this.interval = 60000,
   }) : super(key: key);
 
   final String adUnitId;
   final AdRequest adRequest;
   final AdSize adSize;
-  final int interval;
 
   @override
   State<GoodBannerStandard> createState() => _GoodBannerStandardState();
@@ -29,8 +25,6 @@ class _GoodBannerStandardState extends State<GoodBannerStandard> {
     // Called when an ad is successfully received.
     onAdLoaded: (Ad ad) {
       debug('banner_loaded(${widget.adUnitId}): ${ad.responseInfo.toString()}');
-      GoodBannerStandard.lastImpressions
-          .set(widget.adUnitId, DateTime.now().millisecondsSinceEpoch);
     },
     // Called when an ad request failed.
     onAdFailedToLoad: (Ad ad, LoadAdError error) {
@@ -62,24 +56,11 @@ class _GoodBannerStandardState extends State<GoodBannerStandard> {
   @override
   void initState() {
     super.initState();
-    if (DateTime.now().millisecondsSinceEpoch -
-            GoodBannerStandard.lastImpressions.get(widget.adUnitId) >
-        widget.interval) {
-      loadAd();
-    } else {
-      // if initState but can not load immediately, delay and then load
-      Future.delayed(Duration(milliseconds: widget.interval), () {
-        if (hasLoadAd == false) {
-          loadAd();
-        }
-      });
-    }
+    loadAd();
   }
 
   Future<void> loadAd() async {
     await myBanner.load();
-    GoodBannerStandard.lastImpressions
-        .set(widget.adUnitId, DateTime.now().millisecondsSinceEpoch);
     setState(() {
       hasLoadAd = true;
     });
