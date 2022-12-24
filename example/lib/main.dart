@@ -103,7 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
               },
-              addAutomaticKeepAlives: true,
             ),
           ),
         ],
